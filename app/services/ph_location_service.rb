@@ -26,4 +26,23 @@ class PhLocationService
       address_province.save
     end
   end
+
+  def fetch_cities
+    request = RestClient.get("#{url}/cities-municipalities/")
+    data = JSON.parse(request.body)
+    data.each do |city|
+      address_city = Address::City.find_or_initialize_by(code: city['code'])
+      address_city.name = city['name']
+      address_city.province = if city['name'] == 'City of Cotobato'
+                                Address::Province.find_by_name('Maguindanao')
+                              elsif city['name'] == 'City of Isabela'
+                                Address::Province.find_by_name('Basilan')
+                              elsif city['districtCode']
+                                Address::Province.find_by_code(city['districtCode'])
+                              elsif city['provinceCode']
+                                Address::Province.find_by_code(city['provinceCode'])
+                              end
+      address_city.save
+    end
+  end
 end
