@@ -1,0 +1,17 @@
+<h1>Movie ID: <%= @movie.id %> </h1>
+<ul>
+  <li><%= @movie.title %></li>
+  <li><%= @movie.blurb %></li>
+  <li><%= @movie.country %></li>
+  <li><%= @movie.release_date %></li>
+  <li><%= @movie.country %></li>
+  <li><%= @movie.showing_start %></li>
+  <li><%= @movie.showing_end%></li>
+</ul>
+
+<% if @movie.user == current_user %>
+<div>
+  <%= link_to 'Edit', edit_movie_path(@movie), class: 'btn btn-primary' %>
+  <%= button_to 'Delete', movie_path(@movie), method: :delete, class: 'btn btn-danger', form: { class: 'd-inline'} if user_signed_in? && @movie.user == current_user %>
+</div>
+<% end %>

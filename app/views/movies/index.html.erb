@@ -1,0 +1,29 @@
+<h1>Movies</h1>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Blurb</th>
+      <th>Country</th>
+      <th>Release Date</th>
+      <th>Showing Start</th>
+      <th>Showing End</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @movies.each do |movie| %>
+      <tr>
+        <td><%= movie.title %></td>
+        <td><%= movie.blurb %></td>
+        <td><%= movie.country %></td>
+        <td><%= movie.release_date %></td>
+        <td><%= movie.showing_start %></td>
+        <td><%= movie.showing_end%></td>
+        <td><%= link_to 'show', movie_path(movie), class: 'btn btn-primary' %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'New Movie', new_movie_path %>

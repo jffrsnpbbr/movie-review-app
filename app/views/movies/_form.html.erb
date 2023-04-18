@@ -1,0 +1,38 @@
+<%= form_with model: movie do |form| %>
+  <% if movie.errors.any? %>
+    <ul>
+      <% movie.errors.each do |error| %>
+        <li><%= error.full_message %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
+
+  <div class="form-group">
+    <%= form.label :title, class: 'form-label' %>
+    <%= form.text_field :title, class: 'form-control' %>
+  </div>
+  <div class="form-group">
+    <%= form.label :blurb, class: 'form-label' %>
+    <%= form.text_area :blurb, class: 'form-control' %>
+  </div>
+  <div class="form-group">
+    <%= form.label :country, class: 'form-label'%>
+    <%= form.text_field :country, class: 'form-control' %>
+  </div>
+  <div class="form-group">
+    <%= form.label :release_date, class: 'form-label' %>
+    <%= form.date_field :release_date, class: 'form-control' %>
+  </div>
+  <div class="form-group">
+    <%= form.label :showing_start, class: 'form-label' %>
+    <%= form.date_field :showing_start, class: 'form-control' %>
+  </div>
+  <div class="form-group">
+    <%= form.label :showing_end, class: 'form-label' %>
+    <%= form.date_field :showing_end, class: 'form-control' %>
+  </div>
+  <div class="form-group">
+    <%= form.submit %>
+  </div>
+<% end %>
