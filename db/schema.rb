@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_17_015008) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_18_234417) do
   create_table "address_barangays", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.bigint "city_id"
     t.string "code"
@@ -45,6 +45,21 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_17_015008) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "genres", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "movie_genre_ships", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
+    t.bigint "movie_id", null: false
+    t.bigint "genre_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["genre_id"], name: "index_movie_genre_ships_on_genre_id"
+    t.index ["movie_id"], name: "index_movie_genre_ships_on_movie_id"
+  end
+
   create_table "movies", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.bigint "user_id"
     t.string "title"
@@ -72,4 +87,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_17_015008) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "movie_genre_ships", "genres"
+  add_foreign_key "movie_genre_ships", "movies"
 end
