@@ -1,10 +1,11 @@
 class MoviesController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
-  before_action :set_movie, only: %i[show edit update destroy]
+  before_action :set_movie, only: %i[show edit show update destroy]
   before_action :validate_post_owner, only: %i[edit update destroy]
+  before_action :set_movie_page, only: :update
 
   def index
-    @movies = Movie.includes(:genres).all
+    @movies = Movie.includes(:genres).page(params[:page]).per(10)
   end
 
   def new
@@ -27,7 +28,7 @@ class MoviesController < ApplicationController
 
   def update
     if @movie.update(movie_params)
-      redirect_to movies_path
+      redirect_to movies_path(page: @movie_page)
     else
       render :edit, status: :unprocessable_entity
     end
@@ -39,20 +40,29 @@ class MoviesController < ApplicationController
   end
 
   private
-  
-    def validate_post_owner
-      unless @movie.user == current_user
-        flash[:notice] = "the movie doesn't belong to you"
-        redirect_to movies_path
-      end
-    end
 
-    def set_movie
-      @movie = Movie.find(params[:id])
+  def validate_post_owner
+    unless @movie.user == current_user
+      flash[:notice] = "the movie doesn't belong to you"
+      redirect_to movies_path
     end
+  end
 
-    def movie_params
-      params.require(:movie).permit(:title, :blurb, :country, :release_date, :showing_start, :showing_end, genre_ids: [])
+  def set_movie
+    @movie = Movie.find(params[:id])
+  end
+
+  def set_movie_page
+    page = 0
+    loop do
+      page += 1
+      movies = Movie.page(page).per(10)
+      break if movies.select { |m| m[:id] == @movie.id }.count == 1
     end
+    @movie_page = page
+  end
 
+  def movie_params
+    params.require(:movie).permit(:title, :blurb, :country, :release_date, :showing_start, :showing_end, genre_ids: [])
+  end
 end
