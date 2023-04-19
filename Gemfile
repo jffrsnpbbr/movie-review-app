@@ -71,3 +71,5 @@ end
 gem "devise", "~> 4.9"
 
 gem "rest-client", "~> 2.1"
+
+gem "kaminari", "~> 1.2"
