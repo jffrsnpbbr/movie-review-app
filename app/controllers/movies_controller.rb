@@ -15,6 +15,8 @@ class MoviesController < ApplicationController
   def create
     @movie = Movie.new(movie_params)
     @movie.user = current_user
+    @movie.short_url = generate_short_url
+    
     if @movie.save
       redirect_to movies_path
     else
@@ -34,6 +36,11 @@ class MoviesController < ApplicationController
     end
   end
 
+  def short_url
+    @movie = Movie.find_by(short_url: params[:short_url])
+    render "movies/show"
+  end
+
   def destroy
     @movie.destroy
     redirect_to movies_path
@@ -49,7 +56,7 @@ class MoviesController < ApplicationController
   end
 
   def set_movie
-    @movie = Movie.find(params[:id])
+    @movie = Movie.find(params[:id] || params[:short_url])
   end
 
   def set_movie_page
@@ -64,5 +71,17 @@ class MoviesController < ApplicationController
 
   def movie_params
     params.require(:movie).permit(:title, :blurb, :country, :release_date, :showing_start, :showing_end, genre_ids: [])
+  end
+
+  def generate_short_url
+    alphanum = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    short_url = ''
+    loop do
+      7.times { short_url += alphanum.split('')[rand(0...62)] }
+      break if Movie.unscoped.where(short_url: short_url).empty?
+
+      short_url = ''
+    end
+    short_url
   end
 end

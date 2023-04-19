@@ -5,4 +5,6 @@ Rails.application.routes.draw do
 
   resources :movies
   resources :genres, except: :show
+
+  get '/:short_url', controller: :movies, action: :short_url
 end
