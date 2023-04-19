@@ -5,6 +5,7 @@
       <th>Title</th>
       <th>Blurb</th>
       <th>Country</th>
+      <th>Genres</th>
       <th>Release Date</th>
       <th>Showing Start</th>
       <th>Showing End</th>
@@ -17,6 +18,7 @@
         <td><%= movie.title %></td>
         <td><%= movie.blurb %></td>
         <td><%= movie.country %></td>
+        <td><%= movie.genres.pluck(:name).join(',') %></td>
         <td><%= movie.release_date %></td>
         <td><%= movie.showing_start %></td>
         <td><%= movie.showing_end%></td>

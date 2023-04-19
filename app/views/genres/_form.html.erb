@@ -1,0 +1,7 @@
+<%= form_with model: genre, url: path, data: { turbo: false } do |form| %>
+  <div class="mb-3">
+    <%= form.label :name, class: 'form-label' %>
+    <%= form.text_field :name, class: 'form-control' %>
+  </div>
+  <%= form.submit %>
+<% end %>

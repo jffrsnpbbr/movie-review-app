@@ -1,0 +1,22 @@
+<h1>Genres</h1>
+<table class="table">
+  <thead>
+    <tr>
+      </tr>
+    </tr>
+  </thead>
+  <% @genres.each do |genre| %>
+    <tr>
+      <td>
+        <%= genre.name %>
+      </td>
+      <td>
+        <%= link_to 'Edit', edit_genre_path(genre), class: 'btn btn-primary' %>
+        <%= button_to 'Delete', genre_path(genre), method: :delete, class: 'btn btn-danger', form: { class: 'd-inline'} %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+<div>
+  <%= link_to 'New Genre', new_genre_path, class: 'btn btn-primary' %>
+</div>
